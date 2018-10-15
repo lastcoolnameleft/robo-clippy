@@ -65,13 +65,7 @@ conn = http.client.HTTPSConnection("westus.tts.speech.microsoft.com")
 conn.request("POST", "/cognitiveservices/v1", ElementTree.tostring(body), headers)
 response = conn.getresponse()
 print(response.status, response.reason)
-# data = response.read()
-with open('output-test.wav', 'wb') as f:
-	read_data = f.write(response.read())
-f.closed
-exit
-
-wf = wave.open('output-test.wav')
+wf = wave.open(response)
 p = pyaudio.PyAudio()
 stream = p.open(format=p.get_format_from_width(wf.getsampwidth()), channels=wf.getnchannels(), rate=wf.getframerate(), output=True)
 CHUNK_SIZE = 1024
