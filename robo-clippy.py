@@ -18,41 +18,31 @@ pwm = Adafruit_PCA9685.PCA9685()
 # Set frequency to 60hz, good for servos.
 pwm.set_pwm_freq(60)
 
-# Configure min and max servo pulse lengths
-servo_min = 150  # Min pulse length out of 4096
-servo_max = 600  # Max pulse length out of 4096
+MOUTH_SERVO = 0
+RIGHT_SERVO = 1
+LEFT_SERVO = 2
 
-mouth_servo = 0
-right_servo = 1
-left_servo = 2
-
-right_servo_max = 395
-right_servo_max = 385
-left_servo_min = 300
-right_sero_min = 300
 
 def angry():
-    pwm.set_pwm(right_servo, 0, 300)
-    pwm.set_pwm(left_servo, 0, 300)
+    pwm.set_pwm(RIGHT_SERVO, 0, 300)
+    pwm.set_pwm(LEFT_SERVO, 0, 300)
 
 def excited():
-    pwm.set_pwm(right_servo, 0, 385)
-    pwm.set_pwm(left_servo, 0, 395)
+    pwm.set_pwm(RIGHT_SERVO, 0, 385)
+    pwm.set_pwm(LEFT_SERVO, 0, 395)
 
 def confused():
-    pwm.set_pwm(right_servo, 0, 385)
-    pwm.set_pwm(left_servo, 0, 325)
+    pwm.set_pwm(RIGHT_SERVO, 0, 385)
+    pwm.set_pwm(LEFT_SERVO, 0, 325)
 
 def mouth_neutral():
-    pwm.set_pwm(mouth_servo, 0, 380)
+    pwm.set_pwm(MOUTH_SERVO, 0, 380)
 
 def mouth_forward():
-    pwm.set_pwm(mouth_servo, 0, 240)
+    pwm.set_pwm(MOUTH_SERVO, 0, 240)
 
 def mouth_back():
-    pwm.set_pwm(mouth_servo, 0, 420)
-
-
+    pwm.set_pwm(MOUTH_SERVO, 0, 420)
 
 while True:
     excited()
@@ -61,4 +51,3 @@ while True:
     time.sleep(1)
     angry()
     time.sleep(1)
-
