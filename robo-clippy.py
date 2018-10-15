@@ -43,6 +43,17 @@ def confused():
     pwm.set_pwm(right_servo, 0, 385)
     pwm.set_pwm(left_servo, 0, 325)
 
+def mouth_neutral():
+    pwm.set_pwm(mouth_servo, 0, 380)
+
+def mouth_forward():
+    pwm.set_pwm(mouth_servo, 0, 240)
+
+def mouth_back():
+    pwm.set_pwm(mouth_servo, 0, 420)
+
+
+
 while True:
     excited()
     time.sleep(1)
