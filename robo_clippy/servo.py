@@ -57,18 +57,18 @@ class Servo(object):
 
     def left_eye_up(self):
         self.pwm.set_pwm(LEFT_SERVO, 0, 395)
-    
+
     def left_eye_down(self):
         self.pwm.set_pwm(LEFT_SERVO, 0, 320)
-    
+
     def left_eye_middle(self):
         self.pwm.set_pwm(LEFT_SERVO, 0, 371)
-    
+
     def right_eye_up(self):
         self.pwm.set_pwm(RIGHT_SERVO, 0, 380)
-    
+
     def right_eye_down(self):
         self.pwm.set_pwm(RIGHT_SERVO, 0, 300)
-    
+
     def right_eye_middle(self):
         self.pwm.set_pwm(RIGHT_SERVO, 0, 350)

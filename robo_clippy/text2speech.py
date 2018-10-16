@@ -57,4 +57,3 @@ class Text2Speech(object):
         print(response.status, response.reason)
         #conn.close()  
         return response
-

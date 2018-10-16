@@ -12,6 +12,7 @@ class Audio(object):
     p = None
 
     def __init__(self):
+        # Lots of error handing to do because otherwise it's very noisy when it starts up
         ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
 
         def py_error_handler(filename, line, function, err, fmt):

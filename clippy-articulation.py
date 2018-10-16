@@ -1,14 +1,7 @@
-from robo_clippy import servo
+from robo_clippy import servo, listener
 import time
 
 s = servo.Servo()
+l = listener.Listener(s)
 
-while True:
-    s.neutral()
-    time.sleep(2)
-    s.excited()
-    time.sleep(2)
-    s.confused()
-    time.sleep(2)
-    s.angry()
-    time.sleep(2)
+l.start()
