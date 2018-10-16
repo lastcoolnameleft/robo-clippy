@@ -1,0 +1,6 @@
+{
+    "sync-rsync.local": "/Users/thfalgou/git/robo-clippy/",
+    "sync-rsync.remote": "pi@rpi:/home/pi/git/robo-clippy/",
+    "sync-rsync.onSave": true,
+    "python.pythonPath": "/usr/local/bin/python3"
+}
