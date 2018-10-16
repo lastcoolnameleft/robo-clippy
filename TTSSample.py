@@ -17,6 +17,25 @@ from xml.etree import ElementTree
 import pyaudio
 import wave
 
+from ctypes import *
+from contextlib import contextmanager
+
+ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
+
+def py_error_handler(filename, line, function, err, fmt):
+    pass
+
+c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
+
+@contextmanager
+def noalsaerr():
+    asound = cdll.LoadLibrary('libasound.so')
+    asound.snd_lib_error_set_handler(c_error_handler)
+    yield
+    asound.snd_lib_error_set_handler(None)
+with noalsaerr():
+    p = pyaudio.PyAudio()
+
 # Note: new unified SpeechService API key and issue token uri is per region
 # New unified SpeechService key
 # Free: https://azure.microsoft.com/en-us/try/cognitive-services/?api=speech-services
@@ -55,18 +74,23 @@ voice.text = text # 'This is a demo to call microsoft text to speech service in 
 headers = {"Content-type": "application/ssml+xml", 
 			"X-Microsoft-OutputFormat": "riff-24khz-16bit-mono-pcm",
 			"Authorization": "Bearer " + accesstoken, 
-			"X-Search-AppId": "07D3234E49CE426DAA29772419F436CA", 
-			"X-Search-ClientID": "1ECFAE91408841A480F00935DC390960", 
+#			"X-Search-AppId": "07D3234E49CE426DAA29772419F436CA", 
+#			"X-Search-ClientID": "1ECFAE91408841A480F00935DC390960", 
 			"User-Agent": "TTSForPython"}
-			
+
+from xml.dom import minidom
+xmlstr = minidom.parseString(ElementTree.tostring(body)).toprettyxml(indent="   ")
+print(xmlstr.encode('utf-8'))
+
 #Connect to server to synthesize the wave
 print ("\nConnect to server to synthesize the wave")
 conn = http.client.HTTPSConnection("westus.tts.speech.microsoft.com")
+#conn.set_debuglevel(5)
 conn.request("POST", "/cognitiveservices/v1", ElementTree.tostring(body), headers)
 response = conn.getresponse()
 print(response.status, response.reason)
 wf = wave.open(response)
-p = pyaudio.PyAudio()
+#p = pyaudio.PyAudio()
 stream = p.open(format=p.get_format_from_width(wf.getsampwidth()), channels=wf.getnchannels(), rate=wf.getframerate(), output=True)
 CHUNK_SIZE = 1024
 data = wf.readframes(CHUNK_SIZE)
