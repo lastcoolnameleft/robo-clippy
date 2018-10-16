@@ -1,7 +1,6 @@
-import os
-import sys
-import http.client, urllib.parse, json
-from xml.etree import ElementTree
+# pylint: disable=E0401
+# Disabling because OSX can't install pyaudio
+ 
 import pyaudio
 import wave
 
