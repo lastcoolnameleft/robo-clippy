@@ -35,7 +35,7 @@ class DetectAudio(object):
         # This means that the reads below will return either 320 bytes of data
         # or 0 bytes of data. The latter is possible because we are in nonblocking
         # mode.
-        self.inp.setperiodsize(160)
+        self.inp.setperiodsize(3200)
 
     def get_value(self):
         # Read data from device

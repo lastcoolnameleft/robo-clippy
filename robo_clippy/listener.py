@@ -29,7 +29,9 @@ class Listener(object):
                 print("Received audio value: " + str(audio_value))
                 if audio_value > 0:
                     self.servo.speak()
-                time.sleep(.01)  # this needs to be .01 else the audio isn't read
+                else:
+                    self.servo.mouth_neutral()
+                time.sleep(.2)  # this needs to be .01 else the audio isn't read
 
     def process_message(self, message):
         if 'neutral' in message:
