@@ -3,10 +3,10 @@
 # Author: Tony DiCola
 # License: Public Domain
 from __future__ import division
-import time
 
 # Import the PCA9685 module.
 import Adafruit_PCA9685
+import time
 
 MOUTH_SERVO = 0
 RIGHT_SERVO = 1
@@ -16,6 +16,7 @@ class Servo(object):
 
     # Initialise the PCA9685 using the default address (0x40).
     pwm = Adafruit_PCA9685.PCA9685()
+    mouth_position = 0
 
     def __init__(self):
         # Set frequency to 60hz, good for servos.
@@ -25,28 +26,43 @@ class Servo(object):
         #import logging
         #logging.basicConfig(level=logging.DEBUG)
 
-
+    # THE EMOTIONS OF CLIPPY.  HE'S ALIVEEEEEEE!!!!!
     def angry(self):
         print('Clippy angry')
         self.left_eye_down()
         self.right_eye_down()
+        self.mouth_neutral()
 
     def excited(self):
         print('Clippy excited')
         self.left_eye_up()
         self.right_eye_up()
+        self.mouth_neutral()
 
     def confused(self):
         print('Clippy confused')
         self.left_eye_up()
         self.right_eye_down()
+        self.mouth_neutral()
 
     def neutral(self):
         print('Clippy neutral')
         self.left_eye_middle()
         self.right_eye_middle()
+        self.mouth_neutral()
 
-    def mouth_middle(self):
+    def speak(self):
+        if self.mouth_position == 0:
+            print('Clippy move mouth forward')
+            self.mouth_forward()
+            self.mouth_position = 1
+        else:
+            print('Clippy move mouth back')
+            self.mouth_back()
+            self.mouth_position = 0
+
+    # Everything below here should be "private"-ish
+    def mouth_neutral(self):
         self.pwm.set_pwm(MOUTH_SERVO, 0, 380)
 
     def mouth_forward(self):

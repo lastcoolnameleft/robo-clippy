@@ -3,13 +3,15 @@ import os, time
 class Listener(object):
 
     servo = None
+    detect_audio = None
     pipe_path = "/tmp/clippy.pipe"
 
-    def __init__(self, servo):
+    def __init__(self, servo, detect_audio):
         self.servo = servo
+        self.detect_audio = detect_audio
 
     def start(self):
-
+        self.servo.neutral()
         if not os.path.exists(self.pipe_path):
             os.mkfifo(self.pipe_path)
         # Open the fifo. We need to open in non-blocking mode or it will stalls until
@@ -20,10 +22,14 @@ class Listener(object):
             while True:
                 message = pipe.read()
                 if message:
-                    print("Received: '%s'" % message)
+                    #print("Received: '%s'" % message)
                     self.process_message(message)
-                # print("Doing other stuff")
-                time.sleep(1)
+
+                audio_value = self.detect_audio.get_value()
+                print("Received audio value: " + str(audio_value))
+                if audio_value > 0:
+                    self.servo.speak()
+                time.sleep(.01)  # this needs to be .01 else the audio isn't read
 
     def process_message(self, message):
         if 'neutral' in message:

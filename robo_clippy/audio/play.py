@@ -3,15 +3,17 @@
  
 import pyaudio
 import wave
+import alsaaudio, time, audioop
 
 from ctypes import *
 from contextlib import contextmanager
 
-class Audio(object):
+class PlayAudio(object):
 
     p = None
 
     def __init__(self):
+        #  Setup for writing Audio
         # Lots of error handing to do because otherwise it's very noisy when it starts up
         ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
 
