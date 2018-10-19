@@ -25,9 +25,7 @@ class Listener(object):
                     #print("Received: '%s'" % message)
                     self.process_message(message)
 
-                audio_value = self.detect_audio.get_value()
-                print("Received audio value: " + str(audio_value))
-                if audio_value > 0:
+                if self.detect_audio.is_sound():
                     self.servo.speak()
                 else:
                     self.servo.mouth_neutral()

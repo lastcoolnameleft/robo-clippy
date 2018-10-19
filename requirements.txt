@@ -1,2 +1,3 @@
 nose
 sphinx
+azure-cognitiveservices-language-luis

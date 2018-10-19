@@ -50,4 +50,3 @@ class PlayAudio(object):
 
         # Close PyAudio.
         self.p.terminate()
-

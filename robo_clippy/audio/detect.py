@@ -1,6 +1,7 @@
 # pylint: disable=E0401
 # Disabling because OSX can't install alsaaudio
 
+# Inspired by https://stackoverflow.com/questions/1936828/how-get-sound-input-from-microphone-in-python-and-process-it-on-the-fly
 ## This is an example of a simple sound capture script.
 ##
 ## The script opens an ALSA pcm for sound capture. Set
@@ -21,7 +22,7 @@ class DetectAudio(object):
         # Open the device in nonblocking capture mode. The last argument could
         # just as well have been zero for blocking mode. Then we could have
         # left out the sleep call in the bottom of the loop
-        self.inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE,alsaaudio.PCM_NONBLOCK)
+        self.inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NONBLOCK)
 
         # Set attributes: Mono, 8000 Hz, 16 bit little endian samples
         self.inp.setchannels(1)
@@ -37,12 +38,12 @@ class DetectAudio(object):
         # mode.
         self.inp.setperiodsize(3200)
 
-    def get_value(self):
+    def is_sound(self):
         # Read data from device
-        l,data = self.inp.read()
-        
-        if l:
+        length, data = self.inp.read()
+
+        if length:
             # Return the maximum of the absolute value of all samples in a fragment.
-            return audioop.max(data, 2)
-        else:
-            return 0
+            if audioop.max(data, 2) > 0:
+                return True
+        return False

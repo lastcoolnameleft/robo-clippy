@@ -1,7 +1,8 @@
-KEY=$(az cognitiveservices account keys list -g clippy -n clippy-speech -o json | jq '.key1' -r)
-echo $KEY
+AZURE_SPEECH_KEY=$(az cognitiveservices account keys list -g clippy -n clippy-speech -o json | jq '.key1' -r)
+./clippy-conversation.py $AZURE_SPEECH_KEY 'hi i am robo clippy'
 
-python3 clippy-conversation.py $KEY 'hi i am robo clippy'
+BING_SPEECH_KEY=$(az cognitiveservices account keys list -g clippy -n clippy-bing-speech -o json | jq '.key1' -r)
+./clippy-listen.py $BING_SPEECH_KEY $AZURE_SPEECH_KEY $LUIS_APP_ID $LUIS_AUTHORING_KEY
 
 TOKEN=$(curl -s -X POST -H "Content-type: application/x-www-form-urlencoded" -H "Content-Length: 0" -H "Ocp-Apim-Subscription-Key: $KEY" "https://westus.api.cognitive.microsoft.com/sts/v1.0/issueToken")
 echo $TOKEN
