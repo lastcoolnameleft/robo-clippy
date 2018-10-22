@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 
 import sys
-from robo_clippy import audio, text2speech
+from robo_clippy.audio import play, text_to_speech
 
 api_key = sys.argv[1]
 text = sys.argv[2]
 
-a = audio.play.PlayAudio()
-t2s = text2speech.Text2Speech(api_key)
+a = play.PlayAudio()
+t2s = text_to_speech.Text_to_Speech(api_key)
 
 stream = t2s.get_stream_from_text(text)
 a.play_stream(stream)
