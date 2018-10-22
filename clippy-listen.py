@@ -19,15 +19,18 @@ LUIS_APP_ID = sys.argv[3]
 LUIS_AUTHORING_KEY = sys.argv[4]
 DEVICE_INDEX = 2
 
-def get_audio(device_index, api_key):
+def get_mic(device_index):
     r = sr.Recognizer()
     mic = sr.Microphone(device_index=device_index)
+    return mic, r
+
+def get_audio(mic, recognizer, api_key):
     text = ''
 
     with mic as source:
-        audio = r.listen(source)
+        audio = recognizer.listen(source)
     try:
-        text = r.recognize_bing(audio, key=api_key)
+        text = recognizer.recognize_bing(audio, key=api_key)
     except sr.UnknownValueError:
         print("Microsoft Bing Voice Recognition could not understand audio")
     except sr.RequestError as e:
@@ -59,7 +62,9 @@ def speak(text, api_key):
     stream = t2s.get_stream_from_text(text)
     a.play_stream(stream)
 
-text = get_audio(DEVICE_INDEX, BING_SPEECH_API_KEY)
+mic, recognizer = get_mic(DEVICE_INDEX)
+input('press enter when ready')
+text = get_audio(mic, recognizer, BING_SPEECH_API_KEY)
 intent = get_intent(text, LUIS_APP_ID, LUIS_AUTHORING_KEY)
 response = get_response(intent)
 speak(response, AZURE_SPEECH_KEY)
