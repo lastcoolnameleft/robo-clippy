@@ -3,10 +3,9 @@
 # Inspired by https://realpython.com/python-speech-recognition/#working-with-microphones
 # https://github.com/Uberi/speech_recognition#readme
 
-import sys
 import time
-import speech_recognition as sr
 import logging
+import speech_recognition as sr
 
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
 from msrest.authentication import CognitiveServicesCredentials
@@ -14,7 +13,7 @@ from msrest.authentication import CognitiveServicesCredentials
 # Must be BING Speech Key.  Not Cognitive Services Key
 # Holy crap this is stupid.  But I could not find a Python SDK that worked for both T2S and S2T
 
-class Speech_To_Text(object):
+class SpeechToText(object):
 
     # This shouldn't change, but might due to other sound devices.
     # import speech_recognition as sr
@@ -34,23 +33,23 @@ class Speech_To_Text(object):
         self.bing_speech_key = bing_speech_key
 
     def get_audio(self):
-        print("&get_audio")
+        logging.debug("get_audio()")
         text = None
 
         start_time = time.time()
         with self.mic as source:
-            print("going to listen")
+            logging.debug("get_audio()::going to listen")
             timeout = 3
             audio = self.recognizer.listen(source, timeout)
-            print("Elapsed Time to Listen: " + str(time.time() - start_time))
+            logging.debug("get_audio()::Elapsed Time to Listen: %s", str(time.time() - start_time))
         try:
             start_time = time.time()
             text = self.recognizer.recognize_bing(audio, key=self.bing_speech_key)
-            print("Elapsed Time to Bing recognition (s2t): " + str(time.time() - start_time))
+            logging.debug("get_audio()::Elapsed Time to Bing recognition (s2t): %s", str(time.time() - start_time))
         except sr.UnknownValueError:
             logging.error("Microsoft Bing Voice Recognition could not understand audio")
-        except sr.RequestError as e:
-            logging.error("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
+        except sr.RequestError as exception:
+            logging.error("Could not request results from Microsoft Bing Voice Recognition service; %s", exception)
         return text
 
     def get_intent(self, text):

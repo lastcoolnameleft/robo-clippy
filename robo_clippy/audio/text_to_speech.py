@@ -17,7 +17,7 @@ class Text_to_Speech(object):
         path = "/sts/v1.0/issueToken"
 
         # Connect to server to get the Access Token
-        print ("Connect to server to get the Access Token")
+        print("Connect to server to get the Access Token")
         conn = http.client.HTTPSConnection(access_token_host)
         conn.request("POST", path, params, headers)
         response = conn.getresponse()
@@ -57,5 +57,5 @@ class Text_to_Speech(object):
         response = conn.getresponse()
         print(response.status, response.reason)
         print("Elapsed Time to Bing recognition (t2s): " + str(time.time() - start_time))
-        #conn.close()  
+        #conn.close()
         return response
