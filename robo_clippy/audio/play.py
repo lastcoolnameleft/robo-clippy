@@ -32,8 +32,8 @@ class PlayAudio(object):
             self.p = pyaudio.PyAudio()
 
     def play_stream(self, stream):
+        start_time = time.time()
         wf = wave.open(stream)
-        #p = pyaudio.PyAudio()
         stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()), 
                              channels=wf.getnchannels(), rate=wf.getframerate(), output=True)
         CHUNK_SIZE = 1024
@@ -47,6 +47,7 @@ class PlayAudio(object):
         # Stop stream.
         stream.stop_stream()
         stream.close()
+        print("Elapsed Time to stream audio: " + str(time.time() - start_time))
 
-        # Close PyAudio.
-        self.p.terminate()
+        # DON'T CLOSE PyAudio.  If you do, it will SegFault the 3rd time you open it.
+        #self.p.terminate()
