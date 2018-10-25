@@ -1,4 +1,4 @@
-import os
+import time
 import sys
 import http.client, urllib.parse, json
 from xml.etree import ElementTree
@@ -17,7 +17,7 @@ class Text_to_Speech(object):
         path = "/sts/v1.0/issueToken"
 
         # Connect to server to get the Access Token
-        print ("Connect to server to get the Access Token")
+        print("Connect to server to get the Access Token")
         conn = http.client.HTTPSConnection(access_token_host)
         conn.request("POST", path, params, headers)
         response = conn.getresponse()
@@ -31,6 +31,7 @@ class Text_to_Speech(object):
         return accesstoken
 
     def get_stream_from_text(self, text):
+        start_time = time.time()
         access_token = self.get_access_token()
         body = ElementTree.Element('speak', version='1.0')
         body.set('{http://www.w3.org/XML/1998/namespace}lang', 'en-us')
@@ -55,5 +56,6 @@ class Text_to_Speech(object):
         conn.request("POST", "/cognitiveservices/v1", ElementTree.tostring(body), headers)
         response = conn.getresponse()
         print(response.status, response.reason)
-        #conn.close()  
+        print("Elapsed Time to Bing recognition (t2s): " + str(time.time() - start_time))
+        #conn.close()
         return response

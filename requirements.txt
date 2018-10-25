@@ -1,3 +1,6 @@
 nose
 sphinx
 azure-cognitiveservices-language-luis
+pyaudio
+pyalsaaudio
+speechrecognition
