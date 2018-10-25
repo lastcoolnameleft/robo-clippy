@@ -22,21 +22,22 @@ class Speech_To_Text(object):
     recognizer = None
     mic = None
 
-    def __init__(self, luis_app_id, luis_key, azure_speech_key, bing_speech_key):
+    def __init__(self, luis_app_id, luis_key, azure_speech_key):
         self.recognizer = sr.Recognizer()
-        self.mic = sr.Microphone(device_index=self.DEVICE_INDEX)
+        self.mic = sr.Microphone()
         self.luis_app_id = luis_app_id
         self.luis_client = LUISRuntimeClient('https://westus.api.cognitive.microsoft.com',
                                              CognitiveServicesCredentials(luis_key))
-        self.bing_speech_key = bing_speech_key
+        self.azure_speech_key = azure_speech_key
 
     def get_audio(self):
         text = ''
 
+        snowboy_configuration = ['/home/pi/git/robo-clippy/robo_clippy/audio/', ['/home/pi/git/robo-clippy/resources/hey-clippy.pmdl']]
         with self.mic as source:
-            audio = self.recognizer.listen(source)
+            audio = self.recognizer.listen(source, snowboy_configuration=snowboy_configuration)
         try:
-            text = self.recognizer.recognize_bing(audio, key=self.bing_speech_key)
+            text = self.recognizer.recognize_azure(audio, key=self.azure_speech_key)
         except sr.UnknownValueError:
             print("Microsoft Bing Voice Recognition could not understand audio")
         except sr.RequestError as e:
