@@ -5,13 +5,12 @@
 
 import time
 import logging
-import speech_recognition as sr
+import signal
+import pprint
 
+import speech_recognition as sr
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
 from msrest.authentication import CognitiveServicesCredentials
-
-# Must be BING Speech Key.  Not Cognitive Services Key
-# Holy crap this is stupid.  But I could not find a Python SDK that worked for both T2S and S2T
 
 class SpeechToText(object):
 
@@ -33,26 +32,22 @@ class SpeechToText(object):
         self.azure_speech_key = azure_speech_key
 
     def get_audio(self):
-        logging.debug("get_audio()")
+        logging.info("get_audio()")
         text = None
-
-        snowboy_configuration = ['/home/pi/git/robo-clippy/robo_clippy/audio/', ['/home/pi/git/robo-clippy/resources/hey-clippy.pmdl']]
         start_time = time.time()
         with self.mic as source:
-            audio = self.recognizer.listen(source, snowboy_configuration=snowboy_configuration)
-            logging.debug("get_audio()::going to listen")
             timeout = 3
             audio = self.recognizer.listen(source, timeout)
             logging.debug("get_audio()::Elapsed Time to Listen: %s", str(time.time() - start_time))
         try:
             text = self.recognizer.recognize_azure(audio, key=self.azure_speech_key)
             start_time = time.time()
-            text = self.recognizer.recognize_bing(audio, key=self.bing_speech_key)
-            logging.debug("get_audio()::Elapsed Time to Bing recognition (s2t): %s", str(time.time() - start_time))
+            logging.debug("get_audio()::Elapsed Time to Azure Speech recognition (s2t): %s", str(time.time() - start_time))
         except sr.UnknownValueError:
-            logging.error("Microsoft Bing Voice Recognition could not understand audio")
+            logging.error("Microsoft Azure Speech Recognition could not understand audio")
         except sr.RequestError as exception:
-            logging.error("Could not request results from Microsoft Bing Voice Recognition service; %s", exception)
+            logging.error("Could not request results from Microsoft Azure Speech Recognition service; %s", exception)
+        logging.debug("Utterance = %s", text)
         return text
 
     def get_intent(self, text):
@@ -64,9 +59,13 @@ class SpeechToText(object):
         return luis_result
 
     def get_response(self, intent):
+        top_scoring_intent = intent.top_scoring_intent.intent
+        logging.info("intent = %s", top_scoring_intent)
         if not intent:
             return None
-        if intent.top_scoring_intent.intent == 'Welcome' and len(intent.entities) > 0:
+        if top_scoring_intent == 'Welcome' and len(intent.entities) > 0:
             return 'I am sorry.  ' + intent.entities[0].entity + ' Is not here'
+        elif top_scoring_intent == 'How many':
+            return intent.entities[0].entity + ' has 2 ' + intent.entities[1].entity
         else:
             return 'I did not understand you.'
