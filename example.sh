@@ -1,8 +1,7 @@
 AZURE_SPEECH_KEY=$(az cognitiveservices account keys list -g clippy -n clippy-speech -o json | jq '.key1' -r)
 ./clippy-conversation.py $AZURE_SPEECH_KEY 'hi i am robo clippy'
 
-BING_SPEECH_KEY=$(az cognitiveservices account keys list -g clippy -n clippy-bing-speech -o json | jq '.key1' -r)
-./clippy-listen.py $LUIS_APP_ID $LUIS_AUTHORING_KEY $AZURE_SPEECH_KEY
+./clippy-listen.py $LUIS_APP_ID $LUIS_AUTHORING_KEY $AZURE_SPEECH_KEY resources/hey-clippy.pmdl
 
 # S2T
 rec -c 1 -r 16000 -b 16 recording.wav

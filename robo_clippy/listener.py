@@ -5,6 +5,7 @@ class Listener(object):
     servo = None
     detect_audio = None
     pipe_path = "/tmp/clippy.pipe"
+    is_sound = False
 
     def __init__(self, servo, detect_audio):
         self.servo = servo
@@ -27,16 +28,19 @@ class Listener(object):
 
                 if self.detect_audio.is_sound():
                     self.servo.speak()
-                else:
+                    self.is_sound = True
+                elif self.is_sound:
                     self.servo.mouth_neutral()
                 time.sleep(.2)  # this needs to be .01 else the audio isn't read
 
     def process_message(self, message):
         if 'neutral' in message:
             self.servo.neutral()
-        if 'excited' in message:
+        elif 'excited' in message:
             self.servo.excited()
-        if 'confused' in message:
-            self.servo.confused()
-        if 'angry' in message:
+        elif 'think' in message:
+            self.servo.think()
+        elif 'angry' in message:
             self.servo.angry()
+        elif 'speak' in message:
+            self.servo.speak()

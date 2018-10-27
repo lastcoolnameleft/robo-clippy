@@ -17,6 +17,7 @@ class Servo(object):
     # Initialise the PCA9685 using the default address (0x40).
     pwm = Adafruit_PCA9685.PCA9685()
     mouth_position = 0
+    thinking = False
 
     def __init__(self):
         # Set frequency to 60hz, good for servos.
@@ -31,45 +32,50 @@ class Servo(object):
         print('Clippy angry')
         self.left_eye_down()
         self.right_eye_down()
-        self.mouth_neutral()
 
     def excited(self):
         print('Clippy excited')
         self.left_eye_up()
         self.right_eye_up()
-        self.mouth_neutral()
 
-    def confused(self):
-        print('Clippy confused')
-        self.left_eye_up()
-        self.right_eye_down()
-        self.mouth_neutral()
+    def think(self):
+        if self.thinking == False:
+            print('Clippy thinking 1')
+            self.left_eye_up()
+            self.right_eye_down()
+            self.thinking = True
+        elif self.thinking == True:
+            print('Clippy thinking 2')
+            self.left_eye_down()
+            self.right_eye_up()
+            self.thinking = False
 
     def neutral(self):
         print('Clippy neutral')
         self.left_eye_middle()
         self.right_eye_middle()
         self.mouth_neutral()
+        self.thinking = False
 
     def speak(self):
         if self.mouth_position == 0:
-            print('Clippy move mouth forward')
-            self.mouth_forward()
+            print('Clippy move mouth half forward')
+            self.mouth_forward_half()
             self.mouth_position = 1
         else:
-            print('Clippy move mouth back')
-            self.mouth_back()
+            print('Clippy move mouth full forward')
+            self.mouth_forward_full()
             self.mouth_position = 0
 
     # Everything below here should be "private"-ish
     def mouth_neutral(self):
         self.pwm.set_pwm(MOUTH_SERVO, 0, 380)
 
-    def mouth_forward(self):
+    def mouth_forward_full(self):
         self.pwm.set_pwm(MOUTH_SERVO, 0, 240)
 
-    def mouth_back(self):
-        self.pwm.set_pwm(MOUTH_SERVO, 0, 420)
+    def mouth_forward_half(self):
+        self.pwm.set_pwm(MOUTH_SERVO, 0, 320)
 
     def left_eye_up(self):
         self.pwm.set_pwm(LEFT_SERVO, 0, 395)
