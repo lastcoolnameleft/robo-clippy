@@ -4,7 +4,7 @@ import http.client, urllib.parse, json
 from xml.etree import ElementTree
 from xml.dom import minidom
 
-class Text_to_Speech(object):
+class TextToSpeech(object):
 
     api_key = None
     def __init__(self, api_key):
