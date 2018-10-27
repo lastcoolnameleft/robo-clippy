@@ -3,6 +3,7 @@
 # Inspired by https://realpython.com/python-speech-recognition/#working-with-microphones
 # https://github.com/Uberi/speech_recognition#readme
 
+import os
 import sys
 import logging
 
@@ -28,15 +29,18 @@ def main():
     detector.start(detected_callback=listen_and_process, sleep_time=0.03)
 
 def listen_and_process():
+    os.system('echo think > /tmp/clippy.pipe')
     text = s2t.get_audio()
+    os.system('echo think > /tmp/clippy.pipe')
     if not text:
         return
     logging.debug('recognized text = %s', text)
     intent = s2t.get_intent(text)
     response = s2t.get_response(intent)
     logging.debug('response = %s', response)
-    stream = t2s.get_stream_from_text(response)
-    logging.debug('playing stream')
-    audio.play_stream(stream)
+    if response:
+        stream = t2s.get_stream_from_text(response)
+        logging.debug('playing stream')
+        audio.play_stream(stream)
 
 main()

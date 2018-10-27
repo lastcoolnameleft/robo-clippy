@@ -3,6 +3,7 @@
 # Inspired by https://realpython.com/python-speech-recognition/#working-with-microphones
 # https://github.com/Uberi/speech_recognition#readme
 
+import os
 import time
 import logging
 import signal
@@ -67,5 +68,10 @@ class SpeechToText(object):
             return 'I am sorry.  ' + intent.entities[0].entity + ' Is not here'
         elif top_scoring_intent == 'How many':
             return intent.entities[0].entity + ' has 2 ' + intent.entities[1].entity
+        elif top_scoring_intent == 'Show Me':
+            entity = intent.entities[0].entity
+            os.system('echo ' + entity + ' > /tmp/clippy.pipe')
+            return None
+            return 'Here is my ' + entity + ' face.'
         else:
             return 'I did not understand you.'

@@ -60,10 +60,14 @@ class Servo(object):
     def speak(self):
         if self.mouth_position == 0:
             print('Clippy move mouth half forward')
+            self.left_eye_middle()
+            self.right_eye_middle()
             self.mouth_forward_half()
             self.mouth_position = 1
         else:
             print('Clippy move mouth full forward')
+            self.left_eye_middle()
+            self.right_eye_middle()
             self.mouth_forward_full()
             self.mouth_position = 0
 
