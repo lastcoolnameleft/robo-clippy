@@ -68,6 +68,8 @@ class SpeechToText(object):
             return 'I am sorry.  ' + intent.entities[0].entity + ' Is not here'
         elif top_scoring_intent == 'How many':
             return intent.entities[0].entity + ' has 2 ' + intent.entities[1].entity
+        elif top_scoring_intent == 'Is Awesome':
+            return 'I think ' + intent.entities[0].entity + ' is awesome'
         elif top_scoring_intent == 'Show Me':
             entity = intent.entities[0].entity
             os.system('echo ' + entity + ' > /tmp/clippy.pipe')
