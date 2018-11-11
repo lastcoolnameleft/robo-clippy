@@ -44,6 +44,8 @@ class DetectAudio(object):
 
         if length:
             # Return the maximum of the absolute value of all samples in a fragment.
-            if audioop.max(data, 2) > 1000:
+            audio_val = audioop.max(data, 2)
+            print("audio_val=" + str(audio_val))
+            if audio_val > 1000:
                 return True
         return False

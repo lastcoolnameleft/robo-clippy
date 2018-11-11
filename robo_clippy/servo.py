@@ -39,6 +39,7 @@ class Servo(object):
         self.right_eye_up()
 
     def think(self):
+        print('Clippy think')
         if self.thinking == False:
             print('Clippy thinking 1')
             self.left_eye_up()
@@ -58,22 +59,23 @@ class Servo(object):
         self.thinking = False
 
     def speak(self):
+        print('Clippy speak')
         if self.mouth_position == 0:
             print('Clippy move mouth half forward')
-            self.left_eye_middle()
-            self.right_eye_middle()
+#            self.left_eye_middle()
+#            self.right_eye_middle()
             self.mouth_forward_half()
             self.mouth_position = 1
         else:
             print('Clippy move mouth full forward')
-            self.left_eye_middle()
-            self.right_eye_middle()
+#            self.left_eye_middle()
+#            self.right_eye_middle()
             self.mouth_forward_full()
             self.mouth_position = 0
 
     # Everything below here should be "private"-ish
     def mouth_neutral(self):
-        self.pwm.set_pwm(MOUTH_SERVO, 0, 380)
+        self.pwm.set_pwm(MOUTH_SERVO, 0, 430)
 
     def mouth_forward_full(self):
         self.pwm.set_pwm(MOUTH_SERVO, 0, 240)
@@ -85,10 +87,10 @@ class Servo(object):
         self.pwm.set_pwm(LEFT_SERVO, 0, 395)
 
     def left_eye_down(self):
-        self.pwm.set_pwm(LEFT_SERVO, 0, 320)
+        self.pwm.set_pwm(LEFT_SERVO, 0, 290)
 
     def left_eye_middle(self):
-        self.pwm.set_pwm(LEFT_SERVO, 0, 371)
+        self.pwm.set_pwm(LEFT_SERVO, 0, 360)
 
     def right_eye_up(self):
         self.pwm.set_pwm(RIGHT_SERVO, 0, 380)
