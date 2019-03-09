@@ -31,7 +31,7 @@ class Listener(object):
                     self.is_sound = True
                 elif self.is_sound:
                     self.servo.mouth_neutral()
-                time.sleep(.15)  # this needs to be .01 else the audio isn't read
+                time.sleep(.10)  # this needs to be .01 else the audio isn't read
 
     def process_message(self, message):
         if 'neutral' in message:
