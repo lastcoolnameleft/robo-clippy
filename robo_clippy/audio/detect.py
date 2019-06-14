@@ -12,6 +12,8 @@
 
 import alsaaudio
 import audioop
+from struct import unpack
+import numpy as np
 
 class DetectAudio(object):
 
@@ -36,7 +38,9 @@ class DetectAudio(object):
         # This means that the reads below will return either 320 bytes of data
         # or 0 bytes of data. The latter is possible because we are in nonblocking
         # mode.
-        self.inp.setperiodsize(3200)
+        # Higher than 1600 appears to add a delay.  
+        # Use a multiple of 8
+        self.inp.setperiodsize(1600)
 
     def is_sound(self):
         # Read data from device

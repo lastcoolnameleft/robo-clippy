@@ -33,7 +33,7 @@ The commands do the following:
 ```shell
 # Record a Wav file from microphone.  Hit Control-C when done.
 rec -c 1 -r 16000 -b 16 /tmp/recording.wav
-file recording.wav
+file /tmp/recording.wav
 # Should see: /tmp/recording.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
 
 # If you don't want to create a recording, can use existing file
