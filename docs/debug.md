@@ -1,3 +1,10 @@
+# Debugging
+
+## Common issues:
+
+* `OSError: [Errno 121] Remote I/O error` - This is due to Python being unable to speak to the PCA9685 board.  Check your connections.
+* Sometimes the servos will make grinding noises.   This can happen when it wants to move to a specific position, but is blocked.  Check if anything is pushing against servo arm.
+
 ## Audio
 
 Various tools for debugging the audio
@@ -13,8 +20,6 @@ aplay /usr/share/sounds/alsa/Front_Center.wav
 
 # See all audio devices
 aplay -L
-# Play to specific device
-aplay -D peppyalsa /usr/share/sounds/alsa/Front_Center.wav
 
 # ASCII GUI 
 alsamixer
@@ -68,5 +73,5 @@ echo $TOKEN
 
 # Using that token get a WAV file
 curl -v -X POST -H "Authorization: Bearer $TOKEN" -H "Accept-Encoding: identity" -H "User-Agent: robo-clippy" -H "Host: westus.tts.speech.microsoft.com" -H "Content-type: application/ssml+xml" -H "X-Microsoft-OutputFormat: riff-24khz-16bit-mono-pcm" --data '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)">Hello, world!</voice></speak>' "https://westus.tts.speech.microsoft.com/cognitiveservices/v1" > /tmp/t2s.wav
-play /tmp/t2s.wav
+aplay /tmp/t2s.wav
 ```

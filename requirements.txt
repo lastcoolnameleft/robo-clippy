@@ -4,3 +4,4 @@ azure-cognitiveservices-language-luis
 pyaudio
 pyalsaaudio
 speechrecognition
+Adafruit_PCA9685
