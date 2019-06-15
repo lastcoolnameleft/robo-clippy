@@ -24,7 +24,7 @@ class DetectAudio(object):
         # Open the device in nonblocking capture mode. The last argument could
         # just as well have been zero for blocking mode. Then we could have
         # left out the sleep call in the bottom of the loop
-        self.inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NONBLOCK)
+        self.inp = alsaaudio.PCM(alsaaudio.PCM_PLAYBACK, device='default')
 
         # Set attributes: Mono, 8000 Hz, 16 bit little endian samples
         self.inp.setchannels(1)
@@ -40,9 +40,10 @@ class DetectAudio(object):
         # mode.
         # Higher than 1600 appears to add a delay.  
         # Use a multiple of 8
-        self.inp.setperiodsize(1600)
+        self.inp.setperiodsize(160)
 
     def is_sound(self):
+        print("is_sound")
         # Read data from device
         length, data = self.inp.read()
 
