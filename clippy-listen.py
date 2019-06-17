@@ -7,6 +7,7 @@ import os
 import sys
 import logging
 
+from robo_clippy import servo
 from robo_clippy.audio import speech_to_text, text_to_speech, play, snowboydecoder
 
 # Must be BING Speech Key.  Not Cognitive Services Key
@@ -16,9 +17,10 @@ LUIS_AUTHORING_KEY = sys.argv[2]
 AZURE_SPEECH_KEY = sys.argv[3]
 KEYWORD_MODEL = sys.argv[4]
 
-s2t = speech_to_text.SpeechToText(LUIS_APP_ID, LUIS_AUTHORING_KEY, AZURE_SPEECH_KEY)
+s = servo.Servo()
+a = play.PlayAudio(s)
+s2t = speech_to_text.SpeechToText(s, LUIS_APP_ID, LUIS_AUTHORING_KEY, AZURE_SPEECH_KEY)
 t2s = text_to_speech.TextToSpeech(AZURE_SPEECH_KEY)
-audio = play.PlayAudio()
 
 def main():
     root = logging.getLogger()
@@ -29,9 +31,8 @@ def main():
     detector.start(detected_callback=listen_and_process, sleep_time=0.03)
 
 def listen_and_process():
-    os.system('echo think > /tmp/clippy.pipe')
+    s.think()
     text = s2t.get_audio()
-    os.system('echo think > /tmp/clippy.pipe')
     if not text:
         return
     logging.debug('recognized text = %s', text)

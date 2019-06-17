@@ -22,8 +22,10 @@ class SpeechToText(object):
     DEVICE_INDEX = 2
     recognizer = None
     mic = None
+    servo = None
 
-    def __init__(self, luis_app_id, luis_key, azure_speech_key):
+    def __init__(self, servo, luis_app_id, luis_key, azure_speech_key):
+        self.servo = servo
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         #self.mic = sr.Microphone(device_index=self.DEVICE_INDEX)
@@ -72,8 +74,16 @@ class SpeechToText(object):
             return 'I think ' + intent.entities[0].entity + ' is awesome'
         elif top_scoring_intent == 'Show Me':
             entity = intent.entities[0].entity
-            os.system('echo ' + entity + ' > /tmp/clippy.pipe')
+            print('entity=' + entity)
+            if entity == 'angry':
+                self.servo.angry()
+                self.servo.mouth_neutral()
+            elif entity == 'excited':
+                self.servo.excited()
+                self.servo.mouth_forward_full()
+            elif entity == 'neutral':
+                self.servo.neutral()
+                self.servo.mouth_neutral()
             return None
-            return 'Here is my ' + entity + ' face.'
         else:
             return 'I did not understand you.'
