@@ -7,6 +7,7 @@ from __future__ import division
 # Import the PCA9685 module.
 import Adafruit_PCA9685
 import time
+import random
 
 MOUTH_SERVO = 0
 RIGHT_SERVO = 1
@@ -16,13 +17,13 @@ MOUTH_NEUTRAL = 490
 MOUTH_HALF = 430
 MOUTH_FULL = 340
 
-LEFT_UP = 430
-LEFT_MIDDLE = 400
-LEFT_DOWN = 350
+LEFT_UP = 530
+LEFT_MIDDLE = 500
+LEFT_DOWN = 450
 
-RIGHT_UP = 370
-RIGHT_MIDDLE = 335
-RIGHT_DOWN = 285
+RIGHT_UP = 480
+RIGHT_MIDDLE = 450
+RIGHT_DOWN = 400
 
 class Servo(object):
 
@@ -72,14 +73,20 @@ class Servo(object):
 
     def speak(self):
         print('Clippy speak')
+        self.mouth_position = random.choice(list(filter(lambda x: x != self.mouth_position, [0, 1, 2])))
+
         if self.mouth_position == 0:
-            print('Clippy move mouth half forward')
+            print('Clippy move mouth neutral')
+            self.mouth_neutral()
+        elif self.mouth_position == 1:
+            print('Clippy move mouth forward half')
             self.mouth_forward_half()
-            self.mouth_position = 1
-        else:
-            print('Clippy move mouth full forward')
+        elif self.mouth_position == 2:
+            print('Clippy move mouth forward full')
             self.mouth_forward_full()
-            self.mouth_position = 0
+        else:
+            print('Unknown Clippy mouth movement' + str(self.mouth_position))
+
 
     # Everything below here should be "private"-ish
     def mouth_neutral(self):

@@ -17,9 +17,9 @@ LUIS_AUTHORING_KEY = sys.argv[2]
 AZURE_SPEECH_KEY = sys.argv[3]
 KEYWORD_MODEL = sys.argv[4]
 
-s = servo.Servo()
-a = play.PlayAudio(s)
-s2t = speech_to_text.SpeechToText(s, LUIS_APP_ID, LUIS_AUTHORING_KEY, AZURE_SPEECH_KEY)
+servo = servo.Servo()
+audio = play.PlayAudio(servo)
+s2t = speech_to_text.SpeechToText(servo, LUIS_APP_ID, LUIS_AUTHORING_KEY, AZURE_SPEECH_KEY)
 t2s = text_to_speech.TextToSpeech(AZURE_SPEECH_KEY)
 
 def main():
@@ -31,7 +31,7 @@ def main():
     detector.start(detected_callback=listen_and_process, sleep_time=0.03)
 
 def listen_and_process():
-    s.think()
+    servo.think()
     text = s2t.get_audio()
     if not text:
         return

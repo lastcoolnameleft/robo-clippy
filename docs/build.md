@@ -51,7 +51,11 @@ The `clippy-listen.py` script uses the popular Python library for hotwork wakeup
 As of 6/17/19, the pip package has not been updated with the recognize_azure() function.  So, we will need to install from source/master.
 
 ```shell
+git clone git@github.com:Uberi/speech_recognition.git
+
 pip3 install SpeechRecognition
+cd speech_recognition
+pip3 install -e .
 sudo apt-get install flac
 # Verify it's running fine:
 python3 -m speech_recognition
