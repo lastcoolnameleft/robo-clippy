@@ -8,6 +8,7 @@ import time
 import logging
 import signal
 import pprint
+import requests
 
 import speech_recognition as sr
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
@@ -72,6 +73,10 @@ class SpeechToText(object):
             return intent.entities[0].entity + ' has 2 ' + intent.entities[1].entity
         elif top_scoring_intent == 'Is Awesome':
             return 'I think ' + intent.entities[0].entity + ' is awesome'
+        elif top_scoring_intent == 'lanyard':
+            action = intent.entities[0].entity
+            self.lanyard_request(action)
+            return ''
         elif top_scoring_intent == 'Show Me':
             entity = intent.entities[0].entity
             print('entity=' + entity)
@@ -87,3 +92,7 @@ class SpeechToText(object):
             return None
         else:
             return 'I did not understand you.'
+
+    def lanyard_request(self, action):
+        url = ' https://lanyard-api.ngrok.io/lanyard'
+        r = requests.post(url, data={'setting': action})
