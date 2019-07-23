@@ -1,6 +1,6 @@
 {
     "sync-rsync.local": "/Users/thfalgou/git/lastcoolnameleft/robo-clippy/",
-    "sync-rsync.remote": "pi@clippy.local:/home/pi/git/robo-clippy/",
+    "sync-rsync.remote": "pi@192.168.2.2:/home/pi/git/robo-clippy/",
     "sync-rsync.onSave": true,
     "python.pythonPath": "/usr/local/bin/python3",
     "python.linting.pylintEnabled": true

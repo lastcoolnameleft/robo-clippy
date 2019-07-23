@@ -13,9 +13,9 @@ MOUTH_SERVO = 0
 RIGHT_SERVO = 1
 LEFT_SERVO = 2
 
-MOUTH_NEUTRAL = 490
-MOUTH_HALF = 430
-MOUTH_FULL = 340
+MOUTH_NEUTRAL = 550
+MOUTH_HALF = 490
+MOUTH_FULL = 430
 
 LEFT_UP = 530
 LEFT_MIDDLE = 500
@@ -86,6 +86,29 @@ class Servo(object):
             self.mouth_forward_full()
         else:
             print('Unknown Clippy mouth movement' + str(self.mouth_position))
+
+    def wiggle_eyes(self):
+        print('Clippy wiggle eyes')
+        sleep_time=.5
+        self.left_eye_up()
+        self.right_eye_up()
+        time.sleep(sleep_time)
+
+        self.left_eye_middle()
+        self.right_eye_middle()
+        time.sleep(sleep_time)
+
+        self.left_eye_up()
+        self.right_eye_up()
+        time.sleep(sleep_time)
+
+        self.left_eye_middle()
+        self.right_eye_middle()
+        time.sleep(sleep_time)
+
+        self.left_eye_up()
+        self.right_eye_up()
+
 
 
     # Everything below here should be "private"-ish

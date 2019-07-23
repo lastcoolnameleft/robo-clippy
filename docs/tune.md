@@ -38,4 +38,6 @@ s.excited()
 s.think()
 s.neutral()
 s.speak()
+s.wiggle_eyes()
 ```
+
