@@ -25,3 +25,4 @@ The Big Mouth Billy Back Alexa hack was very neat, but simple.  It used an Ardui
 * [I2C](https://github.com/adafruit/Adafruit_Python_PCA9685) - for Servo Controls
   * https://www.amazon.com/gp/product/B014KTSMLA/ref=oh_aui_detailpage_o04_s00?ie=UTF8&psc=1
   * https://www.youtube.com/watch?v=Rp6VvvjSGSs
+* [Google AIY Voice Kit](https://aiyprojects.withgoogle.com/voice/) - Yes, I know it's from Google, but why should that stop me from using the right tool for the job?  It incorporates a nicely integrated Microphone and Speaker system.
