@@ -17,7 +17,7 @@ I was inspired by the [Big Mouth Billy Bass Alexa hack](https://www.youtube.com/
 
 ## Technologies used
 
-The Big Mouth Billy Back Alexa hack was very neat, but simple.  It simply moved the mouth when audio was present.  This solution directly incorporates multiple technologies across the board into one package.
+The Big Mouth Billy Back Alexa hack was very neat, but simple.  It used an Arduino to move the mouth when audio was present.  This solution directly incorporates multiple technologies across the board into one package.
 
 * [Azure Speech](https://azure.microsoft.com/en-us/services/cognitive-services/speech/) - For Text to Speech (T2S) and Speech to Text (S2T)
 * [LUIS](https://www.luis.ai/home) - Used for Natural Language Processing (NLP)
