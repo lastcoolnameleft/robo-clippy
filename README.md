@@ -1,14 +1,23 @@
 # Robo Clippy
 
-This repository contains the code and example code for running Robo-Clippy.  
+This repository contains the details for the inspiration, build, and design of Robo-Clippy
 
-See the tweet that started it all: https://twitter.com/lastcoolname/status/1046773815043379200
+Click to watch the video.
+[![Watch the video](https://img.youtube.com/vi/vIm4QBJv_Rk/maxresdefault.jpg
+)](https://twitter.com/lastcoolname/status/1141912071820517376)
 
-To understand the build process used:  https://speakerdeck.com/lastcoolnameleft/roboclippy
+## Background
 
-Inspired by: https://www.youtube.com/watch?v=aW5TvT1mo9k
+I love LEGO and never stopped building.  My position as a Cloud Solution Architect for Microsoft has helped me do this in the real world as well as in the virtual world.  It's a dream come true.  
+
+View the presentation
+[![View the presentation](https://raw.githubusercontent.com/lastcoolnameleft/robo-clippy/master/docs/assets/robo-clippy-presentation.jpg)](https://speakerdeck.com/lastcoolnameleft/roboclippy)
+
+I was inspired by the [Big Mouth Billy Bass Alexa hack](https://www.youtube.com/watch?v=aW5TvT1mo9k) and wanted to build something similar, but with more passion.  Like or love, there's no denying that people have strong feelings about Clippy.
 
 ## Technologies used
+
+The Big Mouth Billy Back Alexa hack was very neat, but simple.  It simply moved the mouth when audio was present.  This solution directly incorporates multiple technologies across the board into one package.
 
 * [Azure Speech](https://azure.microsoft.com/en-us/services/cognitive-services/speech/) - For Text to Speech (T2S) and Speech to Text (S2T)
 * [LUIS](https://www.luis.ai/home) - Used for Natural Language Processing (NLP)
@@ -16,7 +25,3 @@ Inspired by: https://www.youtube.com/watch?v=aW5TvT1mo9k
 * [I2C](https://github.com/adafruit/Adafruit_Python_PCA9685) - for Servo Controls
   * https://www.amazon.com/gp/product/B014KTSMLA/ref=oh_aui_detailpage_o04_s00?ie=UTF8&psc=1
   * https://www.youtube.com/watch?v=Rp6VvvjSGSs
-
-## Dev Notes
-
-See `example.sh` for example commands
