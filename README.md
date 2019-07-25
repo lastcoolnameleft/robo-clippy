@@ -30,3 +30,7 @@ The Big Mouth Billy Back Alexa hack was very neat, but simple.  It used an Ardui
 ## Usage
 
 If you are interested in building your own, I have [detailed install instructions](https://github.com/lastcoolnameleft/robo-clippy/blob/master/docs/build.md) along with [troubleshooting details](https://github.com/lastcoolnameleft/robo-clippy/blob/master/docs/debug.md) and [examples](https://github.com/lastcoolnameleft/robo-clippy/blob/master/docs/run.md).
+
+## Vision
+
+If you are interested in seeing the results from the 2019 Microsoft Hackathon, [see the hackathon branch](https://github.com/lastcoolnameleft/robo-clippy/blob/hackathon/face-api/README.md).
