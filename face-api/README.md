@@ -6,7 +6,7 @@ In the 2019 Microsoft Hackathon, a team of 5 computer and social scientists join
 
 We explored 3 different hardware technologies for detecting people from their face:
 
-* [https://azure.github.io/Vision-AI-DevKit-Pages](Azure Vision AI DevKit): This kit has the potential to bundle all of our requirements into one solution.  However, due to congested WiFi and other limitations (would not add message to IotHub when face was detected, but not identified), we were not able to use this for our project.
+* [Azure Vision AI DevKit](https://azure.github.io/Vision-AI-DevKit-Pages): This kit has the potential to bundle all of our requirements into one solution.  However, due to congested WiFi and other limitations (would not add message to IotHub when face was detected, but not identified), we were not able to use this for our project.
 * [OpenCV](https://opencv.org/):  We were able to get this to work on the RaspberryPi; however, only with Python2.  Given all of the code was written with Python3 and we didn't want to go back, this was a significant blocker.
 * USB WebCam: This solution required writing a lot of the code ourselves, but was functional. (But was not without problems:  [USB Camera required a reset of the USB plug every few pics taken](https://www.raspberrypi.org/forums/viewtopic.php?t=86265))
 
