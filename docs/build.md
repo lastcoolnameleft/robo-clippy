@@ -21,6 +21,31 @@ https://github.com/lastcoolnameleft/ngrok-notify
 Robo-Clippy uses Azure Cognitive Services for Speech To Text (S2T) and Text To Speech (T2S).  You will need to create the account and store the account keys as environment variables for Robo-Clippy.
 https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account
 
+
+
+## Install the Robo-clippy repo
+
+* Follow instructions at: https://github.com/lastcoolnameleft/robo-clippy
+* Enable I2C:
+    * `sudo raspi-config`
+    * Select "Interfacing Options" -> "I2C" -> Yes to Enable
+
+
+```shell
+git@github.com:lastcoolnameleft/robo-clippy.git
+cd robo-clippy
+
+# Install audio preqrequites
+sudo apt-get install libasound-dev
+sudo apt-get install portaudio19-dev
+sudo apt-get install python3-pyaudio
+
+pip3 install -r requirements.txt
+cp env.sh.template env.sh
+# Modify env.sh to add the environment variable values
+. ./env.sh
+```
+
 ## Install Snowboy (Optional)
 
 [Snowboy](https://snowboy.kitt.ai/) is used for keyword detection.  I could not find an easy way to install it, so I compiled from source to get the compiled library and Python module.  Follow instructions here:  https://github.com/kitt-ai/snowboy
@@ -59,19 +84,4 @@ pip3 install -e .
 sudo apt-get install flac
 # Verify it's running fine:
 python3 -m speech_recognition
-```
-
-## Install the Robo-clippy repo
-
-* Follow instructions at: https://github.com/lastcoolnameleft/robo-clippy (You should be here)
-* Enable I2C:
-    * `sudo raspi-config`
-    * Select "Interfacing Options" -> "I2C" -> Yes to Enable
-```shell
-git@github.com:lastcoolnameleft/robo-clippy.git
-cd robo-clippy
-pip3 install -r requirements.txt
-cp env.sh.template env.sh
-# Modify env.sh to add the environment variable values
-. ./env.sh
 ```
