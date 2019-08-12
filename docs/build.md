@@ -65,7 +65,9 @@ sudo install -v -m755 -d /usr/share/doc/swig-3.0.10
 sudo cp -v -R Doc/* /usr/share/doc/swig-3.0.10
 
 # Use swig to install rest of module.  This will be from the cloned repo.
-cd swig/Python
+cd ~/git
+git clone git@github.com:Kitt-AI/snowboy.git
+cd snowboy/swig/Python
 make
 ```
 
@@ -76,12 +78,14 @@ The `clippy-listen.py` script uses the popular Python library for hotwork wakeup
 As of 6/17/19, the pip package has not been updated with the recognize_azure() function.  So, we will need to install from source/master.
 
 ```shell
-git clone git@github.com:Uberi/speech_recognition.git
+sudo apt-get install flac
 
 pip3 install SpeechRecognition
+# OR
+git clone git@github.com:Uberi/speech_recognition.git
 cd speech_recognition
 pip3 install -e .
-sudo apt-get install flac
+
 # Verify it's running fine:
 python3 -m speech_recognition
 ```
