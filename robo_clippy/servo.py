@@ -25,10 +25,19 @@ RIGHT_UP = 480
 RIGHT_MIDDLE = 450
 RIGHT_DOWN = 400
 
+class MockPCA9685():
+    def set_pwm_freq(self, unused):
+        return True
+
+    def set_pwm(self, unused1, unused2, unused3):
+        return True
+
 class Servo(object):
 
     # Initialise the PCA9685 using the default address (0x40).
     pwm = Adafruit_PCA9685.PCA9685()
+    #pwm = MockPCA9685()
+
     mouth_position = 0
     thinking = False
 
