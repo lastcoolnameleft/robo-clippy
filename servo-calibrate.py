@@ -4,6 +4,15 @@ import time
 from robo_clippy import servo
 s = servo.Servo()
 
+# Start in full neutral
+print('MOUTH_NEUTRAL=' + str(servo.MOUTH_NEUTRAL))
+s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_NEUTRAL)
+print('LEFT_MIDDLE=' + str(servo.LEFT_MIDDLE))
+s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_MIDDLE)
+print('RIGHT_MIDDLE=' + str(servo.RIGHT_MIDDLE))
+s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_MIDDLE)
+
+
 print('MOUTH_NEUTRAL=' + str(servo.MOUTH_NEUTRAL))
 s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_NEUTRAL)
 time.sleep(2)
