@@ -21,8 +21,18 @@ aplay /usr/share/sounds/alsa/Front_Center.wav
 # See all audio devices
 aplay -L
 
-# ASCII GUI 
+# ASCII GUI
 alsamixer
+
+# See sound cards
+arecord -l
+cat /proc/asound/cards
+cat /proc/asound/card1/usbmixer
+
+# Test record audio
+arecord -q -r 16000 -f S16_LE -D hw:1,0
+arecord -D hw:1,0 -d 5 -f cd -c 1 /tmp/arecord.wav
+aplay /tmp/arecord.wav
 ```
 
 ## Speech 2 Text
