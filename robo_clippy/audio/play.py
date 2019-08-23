@@ -3,6 +3,7 @@
  
 import pyaudio
 import wave
+import logging
 import alsaaudio, time, audioop
 import audioop
 
@@ -13,12 +14,12 @@ class PlayAudio(object):
     frame_rate = 24000 # Frame rate from WAV returned by Cognitive Services
     period_size = 4000 # Frame rate / 8
     chunk_size = 4000
-    time_between_movements = 0.17
+    time_between_movements = 0.16
     sound_format = alsaaudio.PCM_FORMAT_S16_LE
     audio_threshold = 1000
 
     def __init__(self, servo):
-        print("starting up")
+        logging.info("starting up")
         self.servo = servo
         # Open the device in nonblocking capture mode. The last argument could
         # just as well have been zero for blocking mode. Then we could have
@@ -58,8 +59,8 @@ class PlayAudio(object):
 
             # If we write too fast (which happens with audio jack), then the mouth stop moving too soon
             # This forced delay of .17 seconds per frame is about perfect to keep the mouth in sync with the audio
-            if (time.time() - start_time_write < self.time_between_movements):
-                time.sleep(self.time_between_movements - (time.time() - start_time_write))
+            #if (time.time() - start_time_write < self.time_between_movements):
+            #    time.sleep(self.time_between_movements - (time.time() - start_time_write))
 
             data = wf.readframes(self.chunk_size)
             if self.is_sound(data):
@@ -70,7 +71,7 @@ class PlayAudio(object):
         # Stop stream.
         self.servo.mouth_neutral()
         stream.close()
-        print("Elapsed Time to stream audio: " + str(time.time() - start_time))
+        logging.info("Elapsed Time to stream audio: " + str(time.time() - start_time))
 
         # DON'T CLOSE PyAudio.  If you do, it will SegFault the 3rd time you open it.
         #self.p.terminate()

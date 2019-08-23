@@ -12,6 +12,7 @@
 
 import alsaaudio
 import audioop
+import logging
 from struct import unpack
 import numpy as np
 
@@ -20,7 +21,7 @@ class DetectAudio(object):
     inp = None
 
     def __init__(self):
-        print("starting up")
+        logging.info("starting up")
         # Open the device in nonblocking capture mode. The last argument could
         # just as well have been zero for blocking mode. Then we could have
         # left out the sleep call in the bottom of the loop
@@ -43,14 +44,14 @@ class DetectAudio(object):
         self.inp.setperiodsize(160)
 
     def is_sound(self):
-        print("is_sound")
+        logging.debug("is_sound")
         # Read data from device
         length, data = self.inp.read()
 
         if length:
             # Return the maximum of the absolute value of all samples in a fragment.
             audio_val = audioop.max(data, 2)
-            print("audio_val=" + str(audio_val))
+            logging.debug("audio_val=" + str(audio_val))
             if audio_val > 1000:
                 return True
         return False

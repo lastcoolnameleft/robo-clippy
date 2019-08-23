@@ -1,5 +1,6 @@
 import time
 import sys
+import logging
 import http.client, urllib.parse, json
 from xml.etree import ElementTree
 from xml.dom import minidom
@@ -17,11 +18,11 @@ class TextToSpeech(object):
         path = "/sts/v1.0/issueToken"
 
         # Connect to server to get the Access Token
-        print("Connect to server to get the Access Token")
+        logging.debug("Connect to server to get the Access Token")
         conn = http.client.HTTPSConnection(access_token_host)
         conn.request("POST", path, params, headers)
         response = conn.getresponse()
-        print(response.status, response.reason)
+        logging.debug(response.status, response.reason)
 
         data = response.read()
         conn.close()
@@ -47,15 +48,15 @@ class TextToSpeech(object):
                    "User-Agent": "Robo-Clippy"}
 
         xmlstr = minidom.parseString(ElementTree.tostring(body)).toprettyxml(indent="   ")
-        print(xmlstr.encode('utf-8'))
+        logging.info(xmlstr.encode('utf-8'))
 
         #Connect to server to synthesize the wave
-        print("Connect to server to synthesize the wave")
+        logging.debug("Connect to server to synthesize the wave")
         conn = http.client.HTTPSConnection("westus.tts.speech.microsoft.com")
         #conn.set_debuglevel(5)
         conn.request("POST", "/cognitiveservices/v1", ElementTree.tostring(body), headers)
         response = conn.getresponse()
-        print(response.status, response.reason)
-        print("Elapsed Time to Bing recognition (t2s): " + str(time.time() - start_time))
+        logging.debug(response.status, response.reason)
+        logging.debug("Elapsed Time to Bing recognition (t2s): " + str(time.time() - start_time))
         #conn.close()
         return response

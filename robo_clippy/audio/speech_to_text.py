@@ -7,7 +7,6 @@ import os
 import time
 import logging
 import signal
-import pprint
 import requests
 
 import speech_recognition as sr
@@ -28,7 +27,7 @@ class SpeechToText(object):
     def __init__(self, servo, luis_app_id, luis_key, azure_speech_key):
         self.servo = servo
         self.recognizer = sr.Recognizer()
-        self.mic = sr.Microphone()
+        self.mic = sr.Microphone(device_index=0)
         #self.mic = sr.Microphone(device_index=self.DEVICE_INDEX)
         self.luis_app_id = luis_app_id
         self.luis_client = LUISRuntimeClient('https://westus.api.cognitive.microsoft.com',
@@ -59,7 +58,7 @@ class SpeechToText(object):
             return None
         start_time = time.time()
         luis_result = self.luis_client.prediction.resolve(self.luis_app_id, text)
-        print("Elapsed Time to LUIS detection: " + str(time.time() - start_time))
+        logging.info("Elapsed Time to LUIS detection: " + str(time.time() - start_time))
         return luis_result
 
     def get_response(self, intent):
@@ -79,7 +78,7 @@ class SpeechToText(object):
             return ''
         elif top_scoring_intent == 'Show Me':
             entity = intent.entities[0].entity
-            print('entity=' + entity)
+            logging.info('entity=' + entity)
             if entity == 'angry':
                 self.servo.angry()
                 self.servo.mouth_neutral()

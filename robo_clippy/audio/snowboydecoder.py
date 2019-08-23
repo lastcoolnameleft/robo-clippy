@@ -220,7 +220,7 @@ class HotwordDetector(object):
                     message = "Keyword " + str(status) + " detected at time: "
                     message += time.strftime("%Y-%m-%d %H:%M:%S",
                                          time.localtime(time.time()))
-                    logger.info(message)
+                    logger.debug(message)
                     callback = detected_callback[status-1]
                     if callback is not None:
                         callback()

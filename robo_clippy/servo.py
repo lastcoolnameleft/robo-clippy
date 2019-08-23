@@ -8,12 +8,13 @@ from __future__ import division
 import Adafruit_PCA9685
 import time
 import random
+import logging
 
 MOUTH_SERVO = 0
 RIGHT_SERVO = 1
 LEFT_SERVO = 2
 
-MOUTH_NEUTRAL = 640
+MOUTH_NEUTRAL = 642
 MOUTH_HALF = MOUTH_NEUTRAL - 61
 MOUTH_FULL = MOUTH_NEUTRAL - 120
 
@@ -51,53 +52,53 @@ class Servo(object):
 
     # THE EMOTIONS OF CLIPPY.  HE'S ALIVEEEEEEE!!!!!
     def angry(self):
-        print('Clippy angry')
+        logging.info('Clippy angry')
         self.left_eye_down()
         self.right_eye_down()
 
     def excited(self):
-        print('Clippy excited')
+        logging.info('Clippy excited')
         self.left_eye_up()
         self.right_eye_up()
 
     def think(self):
-        print('Clippy think')
+        logging.info('Clippy think')
         if self.thinking == False:
-            print('Clippy thinking 1')
+            logging.debug('Clippy thinking 1')
             self.left_eye_up()
             self.right_eye_down()
             self.thinking = True
         elif self.thinking == True:
-            print('Clippy thinking 2')
+            logging.debug('Clippy thinking 2')
             self.left_eye_down()
             self.right_eye_up()
             self.thinking = False
 
     def neutral(self):
-        print('Clippy neutral')
+        logging.info('Clippy neutral')
         self.left_eye_middle()
         self.right_eye_middle()
         self.mouth_neutral()
         self.thinking = False
 
     def speak(self):
-        print('Clippy speak')
+        logging.debug('Clippy speak')
         self.mouth_position = random.choice(list(filter(lambda x: x != self.mouth_position, [0, 1, 2])))
 
         if self.mouth_position == 0:
-            print('Clippy move mouth neutral')
+            logging.debug('Clippy move mouth neutral')
             self.mouth_neutral()
         elif self.mouth_position == 1:
-            print('Clippy move mouth forward half')
+            logging.debug('Clippy move mouth forward half')
             self.mouth_forward_half()
         elif self.mouth_position == 2:
-            print('Clippy move mouth forward full')
+            logging.debug('Clippy move mouth forward full')
             self.mouth_forward_full()
         else:
-            print('Unknown Clippy mouth movement' + str(self.mouth_position))
+            logging.warn('Unknown Clippy mouth movement' + str(self.mouth_position))
 
     def wiggle_eyes(self):
-        print('Clippy wiggle eyes')
+        logging.info('Clippy wiggle eyes')
         sleep_time=.5
         self.left_eye_up()
         self.right_eye_up()

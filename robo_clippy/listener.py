@@ -1,4 +1,4 @@
-import os, time
+import os, time, logging
 
 class Listener(object):
 
@@ -18,7 +18,7 @@ class Listener(object):
         # Open the fifo. We need to open in non-blocking mode or it will stalls until
         # someone opens it for writting
         pipe_fd = os.open(self.pipe_path, os.O_RDONLY | os.O_NONBLOCK)
-        print("Listening at " + self.pipe_path)
+        logging.debug("Listening at " + self.pipe_path)
         with os.fdopen(pipe_fd) as pipe:
             while True:
                 message = pipe.read()

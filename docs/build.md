@@ -89,3 +89,18 @@ pip3 install -e .
 # Verify it's running fine:
 python3 -m speech_recognition
 ```
+
+## Remove error messages
+
+```shell
+# https://stackoverflow.com/questions/7088672/pyaudio-working-but-spits-out-error-messages-each-time
+sudo vi /usr/share/alsa/alsa.conf
+# Remove non default cards.pcm
+# https://github.com/Arkq/bluez-alsa/issues/26
+sudo mv /usr/share/alsa/alsa.conf.d/20-bluealsa.conf /usr/share/alsa/alsa.conf.d/20-bluealsa.conf.orig
+
+#https://github.com/Uberi/speech_recognition/issues/327#issuecomment-474905949
+sudo apt-get install portaudio19-dev
+sudo apt-get install jackd2
+jack_control start
+```
