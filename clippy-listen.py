@@ -39,6 +39,7 @@ def listen_and_process():
     servo.think()
     text = s2t.get_audio()
     if not text:
+        board.led.state = Led.OFF
         return
     logging.debug('recognized text = %s', text)
     intent = s2t.get_intent(text)

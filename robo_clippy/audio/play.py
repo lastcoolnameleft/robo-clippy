@@ -14,7 +14,7 @@ class PlayAudio(object):
     frame_rate = 24000 # Frame rate from WAV returned by Cognitive Services
     period_size = 4000 # Frame rate / 8
     chunk_size = 4000
-    time_between_movements = 0.16
+    time_between_movements = 0.15
     sound_format = alsaaudio.PCM_FORMAT_S16_LE
     audio_threshold = 1000
 
@@ -59,8 +59,8 @@ class PlayAudio(object):
 
             # If we write too fast (which happens with audio jack), then the mouth stop moving too soon
             # This forced delay of .17 seconds per frame is about perfect to keep the mouth in sync with the audio
-            #if (time.time() - start_time_write < self.time_between_movements):
-            #    time.sleep(self.time_between_movements - (time.time() - start_time_write))
+            if (time.time() - start_time_write < self.time_between_movements):
+                time.sleep(self.time_between_movements - (time.time() - start_time_write))
 
             data = wf.readframes(self.chunk_size)
             if self.is_sound(data):

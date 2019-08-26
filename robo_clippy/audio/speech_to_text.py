@@ -38,18 +38,29 @@ class SpeechToText(object):
         logging.info("get_audio()")
         text = None
         start_time = time.time()
-        with self.mic as source:
-            timeout = 3
-            audio = self.recognizer.listen(source, timeout)
-            logging.debug("get_audio()::Elapsed Time to Listen: %s", str(time.time() - start_time))
+        try:
+            with self.mic as source:
+                timeout = 3
+                audio = self.recognizer.listen(source, timeout)
+                logging.debug("get_audio()::Elapsed Time to Listen: %s", str(time.time() - start_time))
+        except sr.WaitTimeoutError:
+            logging.error("get_audio()::listening timed out while waiting for phrase to start")
+            return None
+        except:
+            logging.error("get_audio()::Got unknown error for listen():")
+            return None
+
         try:
             text = self.recognizer.recognize_azure(audio, key=self.azure_speech_key)
             start_time = time.time()
             logging.debug("get_audio()::Elapsed Time to Azure Speech recognition (s2t): %s", str(time.time() - start_time))
         except sr.UnknownValueError:
-            logging.error("Microsoft Azure Speech Recognition could not understand audio")
+            logging.error("get_audio()::Microsoft Azure Speech Recognition could not understand audio")
         except sr.RequestError as exception:
-            logging.error("Could not request results from Microsoft Azure Speech Recognition service; %s", exception)
+            logging.error("get_audio()::Could not request results from Microsoft Azure Speech Recognition service; %s", exception)
+        except:
+            logging.error("get_audio()::Got unknown error for recognize_azure()")
+            return None
         logging.debug("Utterance = %s", text)
         return text
 
@@ -62,8 +73,12 @@ class SpeechToText(object):
         return luis_result
 
     def get_response(self, intent):
+        logging.info(intent)
+        logging.info(intent.entities)
+        logging.info(intent.entities[0])
         top_scoring_intent = intent.top_scoring_intent.intent
-        logging.info("intent = %s", top_scoring_intent)
+        entity = intent.entities[0].entity if str(intent.entities[0]).lower() else None
+        logging.info("intent = %s; entity = %s", top_scoring_intent, entity)
         if not intent:
             return None
         if top_scoring_intent == 'Welcome' and len(intent.entities) > 0:
@@ -71,12 +86,16 @@ class SpeechToText(object):
         elif top_scoring_intent == 'How many':
             return intent.entities[0].entity + ' has 2 ' + intent.entities[1].entity
         elif top_scoring_intent == 'Is Awesome':
+            if entity == 'bay':
+                return 'Bay Max is my nemesis.'
             return 'I think ' + intent.entities[0].entity + ' is awesome'
         elif top_scoring_intent == 'lanyard':
             action = intent.entities[0].entity
             self.lanyard_request(action)
             return ''
         elif top_scoring_intent == 'Show Me':
+            if not len(intent.entities) > 0:
+                return 'I am sorry.  I had problems understanding that'
             entity = intent.entities[0].entity
             logging.info('entity=' + entity)
             if entity == 'angry':
