@@ -1,0 +1,10 @@
+[Unit]
+Description=clippy-button
+
+[Service]
+ExecStart=/home/pi/git/robo-clippy/clippy-button-random-line.py $AZURE_SPEECH_KEY /home/pi/git/robo-clippy/resources/compliments.txt
+EnvironmentFile=/home/pi/git/robo-clippy/env.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

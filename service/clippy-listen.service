@@ -1,0 +1,10 @@
+[Unit]
+Description=clippy-listen
+
+[Service]
+ExecStart=/home/pi/git/robo-clippy/clippy-listen.py $LUIS_APP_ID $LUIS_AUTHORING_KEY $AZURE_SPEECH_KEY  /home/pi/git/robo-clippy/resources/hey-clippy.pmdl
+EnvironmentFile=/home/pi/git/robo-clippy/env.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
