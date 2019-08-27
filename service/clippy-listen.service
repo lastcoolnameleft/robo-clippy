@@ -2,7 +2,7 @@
 Description=clippy-listen
 
 [Service]
-ExecStart=/home/pi/git/robo-clippy/clippy-listen.py $LUIS_APP_ID $LUIS_AUTHORING_KEY $AZURE_SPEECH_KEY  /home/pi/git/robo-clippy/resources/hey-clippy.pmdl
+ExecStart=/home/pi/git/robo-clippy/clippy-listen.py $LUIS_APP_ID $LUIS_AUTHORING_KEY $AZURE_SPEECH_KEY $KEYWORD_MODEL $STARTUP_SOUND
 EnvironmentFile=/home/pi/git/robo-clippy/env.sh
 Restart=on-failure
 

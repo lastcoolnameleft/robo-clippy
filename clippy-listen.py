@@ -17,6 +17,7 @@ LUIS_APP_ID = sys.argv[1]
 LUIS_AUTHORING_KEY = sys.argv[2]
 AZURE_SPEECH_KEY = sys.argv[3]
 KEYWORD_MODEL = sys.argv[4]
+STARTUP_SOUND = sys.argv[5]
 
 board = Board()
 board.led.state = Led.OFF
@@ -29,6 +30,7 @@ def main():
     root = logging.getLogger()
     root.setLevel(logging.INFO)
     logging.StreamHandler(sys.stdout)
+    audio.play_file(STARTUP_SOUND)
 
     detector = snowboydecoder.HotwordDetector(KEYWORD_MODEL, sensitivity=0.38)
     detector.start(detected_callback=listen_and_process, sleep_time=0.03)
@@ -52,5 +54,6 @@ def listen_and_process():
         audio.play_stream(stream)
     else:
         board.led.state = Led.OFF
+
 
 main()

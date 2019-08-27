@@ -5,6 +5,22 @@
 * `OSError: [Errno 121] Remote I/O error` - This is due to Python being unable to speak to the PCA9685 board.  Check your connections.
 * Sometimes the servos will make grinding noises.   This can happen when it wants to move to a specific position, but is blocked.  Check if anything is pushing against servo arm.
 
+## Services
+
+View logs from services
+
+```shell
+journalctl --user-unit clippy-button
+journalctl --user-unit clippy-listen
+```
+
+Restart the services
+
+```shell
+systemctl --user restart clippy-button.service
+systemctl --user restart clippy-listen.service
+```
+
 ## Audio
 
 Various tools for debugging the audio
