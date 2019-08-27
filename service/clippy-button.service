@@ -2,7 +2,7 @@
 Description=clippy-button
 
 [Service]
-ExecStart=/home/pi/git/robo-clippy/clippy-button-random-line.py $AZURE_SPEECH_KEY /home/pi/git/robo-clippy/resources/compliments.txt
+ExecStart=/home/pi/git/robo-clippy/clippy-button-random-line.py $AZURE_SPEECH_KEY /home/pi/git/robo-clippy/resources/compliments.txt $SHUTDOWN_SOUND
 EnvironmentFile=/home/pi/git/robo-clippy/env.sh
 Restart=on-failure
 

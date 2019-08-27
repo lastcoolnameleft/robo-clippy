@@ -12,6 +12,7 @@ from aiy.board import Board, Led
 
 api_key = sys.argv[1]
 text_file = sys.argv[2]
+shutdown_sound = sys.argv[3]
 lines = open(text_file).read().splitlines()
 
 servo = servo.Servo()
@@ -42,7 +43,9 @@ def on_button_release():
         restart()
 
 def restart():
+    global shutdown_sound
     print('RESTART!')
+    audio.play_file(shutdown_sound)
     command = "/usr/bin/sudo /sbin/shutdown -r now"
     import subprocess
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
