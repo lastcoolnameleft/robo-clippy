@@ -38,9 +38,10 @@ def on_button_release():
     elapsed_button_time = now - last_time_pressed
     last_time_pressed = now
     print('on_button_release()::' + str(elapsed_button_time))
-    if elapsed_button_time > 3:
-        print('GOING TO REBOOT')
-        restart()
+    # Removing for dragoncon
+#    if elapsed_button_time > 3:
+#        print('GOING TO REBOOT')
+#        restart()
 
 def restart():
     global shutdown_sound

@@ -12,6 +12,10 @@ View logs from services
 ```shell
 journalctl --user-unit clippy-button
 journalctl --user-unit clippy-listen
+
+# Clear logs
+sudo journalctl --rotate
+sudo journalctl --vacuum-time=1s
 ```
 
 Restart the services
