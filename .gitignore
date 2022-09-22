@@ -2,3 +2,4 @@
 *.pyc
 env.sh
 misc
+settings.ini

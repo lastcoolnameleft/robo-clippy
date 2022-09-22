@@ -3,11 +3,8 @@
 # Inspired by https://realpython.com/python-speech-recognition/#working-with-microphones
 # https://github.com/Uberi/speech_recognition#readme
 
-import os
 import time
 import logging
-import signal
-import requests
 
 import speech_recognition as sr
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
@@ -74,10 +71,9 @@ class SpeechToText(object):
 
     def get_response(self, intent):
         logging.info(intent)
-        logging.info(intent.entities)
-        logging.info(intent.entities[0])
+
         top_scoring_intent = intent.top_scoring_intent.intent
-        entity = intent.entities[0].entity if str(intent.entities[0]).lower() else None
+        entity = intent.entities[0].entity if intent and intent.entities and intent.entities[0] and str(intent.entities[0]).lower() else None
         logging.info("intent = %s; entity = %s", top_scoring_intent, entity)
         if not intent:
             return None
@@ -89,15 +85,11 @@ class SpeechToText(object):
             if entity == 'bay':
                 return 'Bay Max is my nemesis.'
             return 'I think ' + intent.entities[0].entity + ' is awesome'
-        elif top_scoring_intent == 'lanyard':
-            action = intent.entities[0].entity
-            self.lanyard_request(action)
-            return ''
-        elif top_scoring_intent == 'Show Me':
+        elif top_scoring_intent == 'show-face':
             if not len(intent.entities) > 0:
                 return 'I am sorry.  I had problems understanding that'
             entity = intent.entities[0].entity
-            logging.info('entity=' + entity)
+            logging.info('entity= %s', entity)
             if entity == 'angry':
                 self.servo.angry()
                 self.servo.mouth_neutral()
@@ -110,7 +102,3 @@ class SpeechToText(object):
             return None
         else:
             return 'I did not understand you.'
-
-    def lanyard_request(self, action):
-        url = ' https://lanyard-api.ngrok.io/lanyard'
-        r = requests.post(url, data={'setting': action})

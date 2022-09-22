@@ -1,29 +1,30 @@
 #!/usr/bin/python3 -u
-import logging
-import platform
-import sys
-import markovify
 import sys
 import random
 import time
+import configparser
 from robo_clippy.audio import play, text_to_speech
 from robo_clippy import servo
 from aiy.board import Board, Led
 
-api_key = sys.argv[1]
-text_file = sys.argv[2]
-shutdown_sound = sys.argv[3]
+config = configparser.ConfigParser()
+config.read('settings.ini')
+
+api_key = config['AZURE']['AZURE_SPEECH_KEY']
+shutdown_sound = config['MISC']['SHUTDOWN_SOUND']
+
+text_file = sys.argv[1]
 lines = open(text_file).read().splitlines()
 
-servo = servo.Servo()
+servo = servo.Servo(config)
 audio = play.PlayAudio(servo)
 t2s = text_to_speech.TextToSpeech(api_key)
 board = Board()
-last_time_pressed = time.time()
+LAST_TIME_PRESSED = time.time()
 
 def on_button_pressed():
-    global last_time_pressed
-    last_time_pressed = time.time()
+    global LAST_TIME_PRESSED
+    LAST_TIME_PRESSED = time.time()
     print('on_button_pressed()')
     board.led.state = Led.ON
     text = random.choice(lines)
@@ -33,27 +34,13 @@ def on_button_pressed():
     board.led.state = Led.OFF
 
 def on_button_release():
-    global last_time_pressed
+    global LAST_TIME_PRESSED
     now = time.time()
-    elapsed_button_time = now - last_time_pressed
-    last_time_pressed = now
+    elapsed_button_time = now - LAST_TIME_PRESSED
+    LAST_TIME_PRESSED = now
     print('on_button_release()::' + str(elapsed_button_time))
-    # Removing for dragoncon
-#    if elapsed_button_time > 3:
-#        print('GOING TO REBOOT')
-#        restart()
 
-def restart():
-    global shutdown_sound
-    print('RESTART!')
-    audio.play_file(shutdown_sound)
-    command = "/usr/bin/sudo /sbin/shutdown -r now"
-    import subprocess
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-    output = process.communicate()[0]
-    print(output)
-
-last_time_pressed = time.time()
+LAST_TIME_PRESSED = time.time()
 board.button.when_pressed = on_button_pressed
 board.button.when_released = on_button_release
 print('READY')

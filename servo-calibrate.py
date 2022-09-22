@@ -1,50 +1,45 @@
 #!/usr/bin/python3
 
-import time
+import configparser
+from collections import OrderedDict
 from robo_clippy import servo
-s = servo.Servo()
 
-# Start in full neutral
-print('MOUTH_NEUTRAL=' + str(servo.MOUTH_NEUTRAL))
-s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_NEUTRAL)
-print('LEFT_MIDDLE=' + str(servo.LEFT_MIDDLE))
-s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_MIDDLE)
-print('RIGHT_MIDDLE=' + str(servo.RIGHT_MIDDLE))
-s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_MIDDLE)
+SETTINGS_FILE = 'settings.ini'
+config = configparser.ConfigParser()
+config.read(SETTINGS_FILE)
+s = servo.Servo(config)
 
+positions = OrderedDict()
+positions['MOUTH_HALF'] = {'servo': s.MOUTH_SERVO, 'frequency': s.MOUTH_HALF}
+positions['MOUTH_FULL'] = {'servo': s.MOUTH_SERVO, 'frequency': s.MOUTH_FULL}
+positions['LEFT_UP'] = {'servo': s.LEFT_SERVO, 'frequency': s.LEFT_UP}
+positions['LEFT_DOWN'] = {'servo': s.LEFT_SERVO, 'frequency': s.LEFT_DOWN}
+positions['RIGHT_UP'] = {'servo': s.RIGHT_SERVO, 'frequency': s.RIGHT_UP}
+positions['RIGHT_DOWN'] = {'servo': s.RIGHT_SERVO, 'frequency': s.RIGHT_DOWN}
 
-print('MOUTH_NEUTRAL=' + str(servo.MOUTH_NEUTRAL))
-s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_NEUTRAL)
-time.sleep(2)
+print("Setting everything to neutral")
+print('Setting: MOUTH at frequency ' + str(s.MOUTH_NEUTRAL))
+s.pwm.set_pwm(s.MOUTH_SERVO, 0, s.MOUTH_NEUTRAL)
+print('Setting: LEFT EYEBROW at frequency ' + str(s.LEFT_MIDDLE))
+s.pwm.set_pwm(s.LEFT_SERVO, 0, s.LEFT_MIDDLE)
+print('Setting: RIGHT EYEBROW at frequency ' + str(s.RIGHT_MIDDLE))
+s.pwm.set_pwm(s.RIGHT_SERVO, 0, s.RIGHT_MIDDLE)
+input("Press enter to begin test")
 
-print('MOUTH_HALF=' + str(servo.MOUTH_HALF))
-s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_HALF)
-time.sleep(2)
+for position in positions:
+    servo_id = positions[position]['servo']
+    frequency = positions[position]['frequency']
+    print('Testing: ' + position + ' at frequency ' + str(frequency) + ".", end =" ")
+    s.pwm.set_pwm(servo_id, 0, frequency)
+    override = input(" Override? ")
 
-print('MOUTH_FULL=' + str(servo.MOUTH_FULL))
-s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_FULL)
-time.sleep(2)
+    while override.isdigit():
+        new_frequency = int(override)
+        print("setting config['SERVO'][" + position + "] = " + override)
+        config['SERVO'][position] = override
+        print('Testing: ' + position + ' at frequency ' + str(new_frequency) + ".", end =" ")
+        s.pwm.set_pwm(servo_id, 0, int(new_frequency))
+        override = input(" Override? ")
 
-print('LEFT_UP=' + str(servo.LEFT_UP))
-s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_UP)
-time.sleep(2)
-
-print('LEFT_MIDDLE=' + str(servo.LEFT_MIDDLE))
-s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_MIDDLE)
-time.sleep(2)
-
-print('LEFT_DOWN=' + str(servo.LEFT_DOWN))
-s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_DOWN)
-time.sleep(2)
-
-print('RIGHT_UP=' + str(servo.RIGHT_UP))
-s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_UP)
-time.sleep(2)
-
-print('RIGHT_MIDDLE=' + str(servo.RIGHT_MIDDLE))
-s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_MIDDLE)
-time.sleep(2)
-
-print('RIGHT_DOWN=' + str(servo.RIGHT_DOWN))
-s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_DOWN)
-time.sleep(2)
+with open(SETTINGS_FILE, 'w') as configfile:
+    config.write(configfile)

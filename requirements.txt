@@ -4,3 +4,4 @@ azure-cognitiveservices-language-luis
 pyaudio
 pyalsaaudio
 Adafruit_PCA9685
+SpeechRecognition

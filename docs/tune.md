@@ -1,25 +1,39 @@
 # Tuning Robo-Clippy
 
-Because Servos aren't perfect, you might need to modify individual values.  This is designed to help test each arciulation.
+Because Servos aren't perfect, the PWM frequences often need to be tuned.  
 
 A lot of fine-tuning goes into getting each of the servo.MOUTH/LEFT/RIGHT* values correct.
 
-## Test the servos
+## How to calibrate
+
+* Disconnect servo from LEGO
+* Run `servo-calibrate.py` to set everything to neutral
+* Connect servo to LEGO
+* Continue running `servo-calibrate.py`
+
+## Move the servos individually
+
 ```shell
 python3
 from robo_clippy import servo
-s = servo.Servo()
+import configparser
+from collections import OrderedDict
+
+SETTINGS_FILE = 'settings.ini'
+config = configparser.ConfigParser()
+config.read(SETTINGS_FILE)
+s = servo.Servo(config)
 
 # Control via servos (lower level motions)
-s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_NEUTRAL)
-s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_HALF)
-s.pwm.set_pwm(servo.MOUTH_SERVO, 0, servo.MOUTH_FULL)
-s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_UP)
-s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_MIDDLE)
-s.pwm.set_pwm(servo.LEFT_SERVO, 0, servo.LEFT_DOWN)
-s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_UP)
-s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_MIDDLE)
-s.pwm.set_pwm(servo.RIGHT_SERVO, 0, servo.RIGHT_DOWN)
+s.pwm.set_pwm(s.MOUTH_SERVO, 0, s.MOUTH_NEUTRAL)
+s.pwm.set_pwm(s.MOUTH_SERVO, 0, s.MOUTH_HALF)
+s.pwm.set_pwm(s.MOUTH_SERVO, 0, s.MOUTH_FULL)
+s.pwm.set_pwm(s.LEFT_SERVO, 0, s.LEFT_UP)
+s.pwm.set_pwm(s.LEFT_SERVO, 0, s.LEFT_MIDDLE)
+s.pwm.set_pwm(s.LEFT_SERVO, 0, s.LEFT_DOWN)
+s.pwm.set_pwm(s.RIGHT_SERVO, 0, s.RIGHT_UP)
+s.pwm.set_pwm(s.RIGHT_SERVO, 0, s.RIGHT_MIDDLE)
+s.pwm.set_pwm(s.RIGHT_SERVO, 0, s.RIGHT_DOWN)
 
 # Control via motions (mid level motions)
 s.mouth_neutral()

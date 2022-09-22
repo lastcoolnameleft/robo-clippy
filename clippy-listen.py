@@ -3,25 +3,29 @@
 # Inspired by https://realpython.com/python-speech-recognition/#working-with-microphones
 # https://github.com/Uberi/speech_recognition#readme
 
-import os
 import sys
 import logging
+import configparser
 
-from robo_clippy import servo
+from robo_clippy import servo as clippy_servo
 from robo_clippy.audio import speech_to_text, text_to_speech, play, snowboydecoder
 from aiy.board import Board, Led
 
 # Must be BING Speech Key.  Not Cognitive Services Key
 # Holy crap this is stupid.  But I could not find a Python SDK that worked for both T2S and S2T
-LUIS_APP_ID = sys.argv[1]
-LUIS_AUTHORING_KEY = sys.argv[2]
-AZURE_SPEECH_KEY = sys.argv[3]
-KEYWORD_MODEL = sys.argv[4]
-STARTUP_SOUND = sys.argv[5]
+config = configparser.ConfigParser()
+config.read('settings.ini')
+
+LUIS_APP_ID = config['AZURE']['LUIS_APP_ID']
+LUIS_AUTHORING_KEY = config['AZURE']['LUIS_AUTHORING_KEY']
+AZURE_SPEECH_KEY = config['AZURE']['AZURE_SPEECH_KEY']
+KEYWORD_MODEL = config['MISC']['KEYWORD_MODEL']
+STARTUP_SOUND = config['MISC']['STARTUP_SOUND']
 
 board = Board()
 board.led.state = Led.OFF
-servo = servo.Servo()
+servo = clippy_servo.Servo(config)
+servo.neutral()
 audio = play.PlayAudio(servo)
 s2t = speech_to_text.SpeechToText(servo, LUIS_APP_ID, LUIS_AUTHORING_KEY, AZURE_SPEECH_KEY)
 t2s = text_to_speech.TextToSpeech(AZURE_SPEECH_KEY)
@@ -36,6 +40,7 @@ def main():
     detector.start(detected_callback=listen_and_process, sleep_time=0.03)
 
 def listen_and_process():
+    logging.info("listen_and_process()")
     board.led.state = Led.PULSE_QUICK
     #board.led.state = Led.ON
     servo.think()
@@ -54,6 +59,5 @@ def listen_and_process():
         audio.play_stream(stream)
     else:
         board.led.state = Led.OFF
-
 
 main()

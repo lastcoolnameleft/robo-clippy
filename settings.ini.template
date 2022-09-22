@@ -1,0 +1,34 @@
+[SERVO]
+MOUTH_SERVO = 0
+# Spaced out to give more room on the driver board
+RIGHT_SERVO = 4
+LEFT_SERVO = 2
+
+MOUTH_NEUTRAL = 620
+# Typical delta is MOUTH_NEUTRAL - 61
+MOUTH_HALF = 560
+# Typical delta is MOUTH_NEUTRAL - 120
+MOUTH_FULL = 500
+
+LEFT_MIDDLE = 501
+# Typical delta is LEFT_MIDDLE + 30
+LEFT_UP = 531
+# Typical delta is LEFT_MIDDLE - 50
+LEFT_DOWN = 451
+
+RIGHT_MIDDLE = 401
+# Typical delta is RIGHT_MIDDLE + 30
+RIGHT_UP = 432
+# Typical delta is RIGHT_MIDDLE - 50
+RIGHT_DOWN = 351
+
+[AZURE]
+AZURE_SPEECH_KEY = 
+LUIS_APP_ID = 
+LUIS_AUTHORING_KEY = 
+LUIS_AUTHORING_ENDPOINT = 
+
+[MISC]
+KEYWORD_MODEL = /home/pi/git/robo-clippy/resources/hey-clippy.pmdl
+STARTUP_SOUND = /home/pi/git/robo-clippy/resources/xp-startup.wav
+SHUTDOWN_SOUND = /home/pi/git/robo-clippy/resources/xp-shutdown.wav

@@ -9,22 +9,7 @@ import Adafruit_PCA9685
 import time
 import random
 import logging
-
-MOUTH_SERVO = 0
-RIGHT_SERVO = 1
-LEFT_SERVO = 2
-
-MOUTH_NEUTRAL = 640
-MOUTH_HALF = MOUTH_NEUTRAL - 61
-MOUTH_FULL = MOUTH_NEUTRAL - 120
-
-LEFT_MIDDLE = 501
-LEFT_UP = LEFT_MIDDLE + 30
-LEFT_DOWN = LEFT_MIDDLE - 50
-
-RIGHT_MIDDLE = 401
-RIGHT_UP = RIGHT_MIDDLE + 31
-RIGHT_DOWN = RIGHT_MIDDLE - 50
+import configparser
 
 class MockPCA9685():
     def set_pwm_freq(self, unused):
@@ -42,13 +27,28 @@ class Servo(object):
     mouth_position = 0
     thinking = False
 
-    def __init__(self):
+    def __init__(self, config):
         # Set frequency to 60hz, good for servos.
         self.pwm.set_pwm_freq(60)
 
         # Uncomment to enable debug output.
         #import logging
         #logging.basicConfig(level=logging.DEBUG)
+        self.MOUTH_SERVO = int(config['SERVO']['MOUTH_SERVO'])
+        self.RIGHT_SERVO = int(config['SERVO']['RIGHT_SERVO'])
+        self.LEFT_SERVO = int(config['SERVO']['LEFT_SERVO'])
+        
+        self.MOUTH_NEUTRAL = int(config['SERVO']['MOUTH_NEUTRAL'])
+        self.MOUTH_HALF = int(config['SERVO']['MOUTH_HALF'])
+        self.MOUTH_FULL = int(config['SERVO']['MOUTH_FULL'])
+
+        self.LEFT_MIDDLE = int(config['SERVO']['LEFT_MIDDLE'])
+        self.LEFT_UP = int(config['SERVO']['LEFT_UP'])
+        self.LEFT_DOWN = int(config['SERVO']['LEFT_DOWN'])
+
+        self.RIGHT_MIDDLE = int(config['SERVO']['RIGHT_MIDDLE'])
+        self.RIGHT_UP = int(config['SERVO']['RIGHT_UP'])
+        self.RIGHT_DOWN = int(config['SERVO']['RIGHT_DOWN'])
 
     # THE EMOTIONS OF CLIPPY.  HE'S ALIVEEEEEEE!!!!!
     def angry(self):
@@ -123,28 +123,28 @@ class Servo(object):
 
     # Everything below here should be "private"-ish
     def mouth_neutral(self):
-        self.pwm.set_pwm(MOUTH_SERVO, 0, MOUTH_NEUTRAL)
+        self.pwm.set_pwm(self.MOUTH_SERVO, 0, self.MOUTH_NEUTRAL)
 
     def mouth_forward_full(self):
-        self.pwm.set_pwm(MOUTH_SERVO, 0, MOUTH_FULL)
+        self.pwm.set_pwm(self.MOUTH_SERVO, 0, self.MOUTH_FULL)
 
     def mouth_forward_half(self):
-        self.pwm.set_pwm(MOUTH_SERVO, 0, MOUTH_HALF)
+        self.pwm.set_pwm(self.MOUTH_SERVO, 0, self.MOUTH_HALF)
 
     def left_eye_up(self):
-        self.pwm.set_pwm(LEFT_SERVO, 0, LEFT_UP)
+        self.pwm.set_pwm(self.LEFT_SERVO, 0, self.LEFT_UP)
 
     def left_eye_down(self):
-        self.pwm.set_pwm(LEFT_SERVO, 0, LEFT_DOWN)
+        self.pwm.set_pwm(self.LEFT_SERVO, 0, self.LEFT_DOWN)
 
     def left_eye_middle(self):
-        self.pwm.set_pwm(LEFT_SERVO, 0, LEFT_MIDDLE)
+        self.pwm.set_pwm(self.LEFT_SERVO, 0, self.LEFT_MIDDLE)
 
     def right_eye_up(self):
-        self.pwm.set_pwm(RIGHT_SERVO, 0, RIGHT_UP)
+        self.pwm.set_pwm(self.RIGHT_SERVO, 0, self.RIGHT_UP)
 
     def right_eye_down(self):
-        self.pwm.set_pwm(RIGHT_SERVO, 0, RIGHT_DOWN)
+        self.pwm.set_pwm(self.RIGHT_SERVO, 0, self.RIGHT_DOWN)
 
     def right_eye_middle(self):
-        self.pwm.set_pwm(RIGHT_SERVO, 0, RIGHT_MIDDLE)
+        self.pwm.set_pwm(self.RIGHT_SERVO, 0, self.RIGHT_MIDDLE)

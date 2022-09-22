@@ -5,19 +5,24 @@ import platform
 import sys
 import markovify
 import sys
+import configparser
 from robo_clippy.audio import play, text_to_speech
 from robo_clippy import servo
 from aiy.board import Board, Led
 
-api_key = sys.argv[1]
-text_file = sys.argv[2]
+
+config = configparser.ConfigParser()
+config.read('settings.ini')
+
+api_key = config['AZURE']['AZURE_SPEECH_KEY']
+text_file = sys.argv[1]
 
 with open(text_file) as f:
     text = f.read()
 
 # Build the model.
 text_model = markovify.Text(text)
-servo = servo.Servo()
+servo = servo.Servo(config)
 audio = play.PlayAudio(servo)
 t2s = text_to_speech.TextToSpeech(api_key)
 board = Board()
